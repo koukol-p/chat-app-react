@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"gopkg.in/olahol/melody.v1"
 )
@@ -14,6 +16,7 @@ func main() {
 		m.HandleRequest(c.Writer, c.Request)
 	})
 	m.HandleMessage(func(s *melody.Session, msg []byte) {
+		log.Println("msg received")
 		m.Broadcast(msg)
 	})
 	r.Run(":5000")

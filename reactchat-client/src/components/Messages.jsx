@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-export default function Messages() {
+export default function Messages({ socket, messages }) {
   return (
-    <div className="flex flex-col rounded-md min-h-[300px] m-auto min-w-[120px] max-w-[420px] border-2 border-cyan-700">
-      Messages
+    <div className="flex flex-col rounded-md min-h-[260px] border-2 border-cyan-700">
+      {messages.map((m) => {
+        return (
+          <div className="">
+            {m.username}:{m.msg}
+          </div>
+        );
+      })}
     </div>
   );
 }
