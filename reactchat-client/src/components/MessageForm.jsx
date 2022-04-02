@@ -15,7 +15,10 @@ export default function MessageForm({ sendMessage }) {
   };
 
   return (
-    <form className="flex flex-col mt-2" onSubmit={handleSubmit}>
+    <form
+      className="overflow-scroll flex flex-col mt-2"
+      onSubmit={handleSubmit}
+    >
       <label htmlFor="user" className="flex flex-row justify-between">
         Username:
       </label>

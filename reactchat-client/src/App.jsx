@@ -7,17 +7,26 @@ export default function App() {
   const [socket, setSocket] = useState(
     new WebSocket("ws://" + "localhost:5000" + "/ws")
   );
+
+  function receiveMessage(receivedMsg) {
+    const parsedMsg = JSON.parse(receivedMsg.data);
+
+    setMessages((prev) => [...prev, parsedMsg]);
+  }
+
   useEffect(() => {
     socket.onopen = () => {
       console.log("WS Connected");
     };
+    setSocket((prev) => {
+      prev.onmessage = receiveMessage;
+      return prev;
+    });
+    return () => {
+      socket.close();
+    };
   }, []);
 
-  socket.onmessage = (receivedMsg) => {
-    const parsedMsg = JSON.parse(receivedMsg.data);
-    setMessages((prev) => [...prev, parsedMsg]);
-  };
-  console.log("SOCKET obj", socket);
   const sendMessage = (msg) => {
     console.log("MSG", msg);
     socket.send(JSON.stringify(msg));
