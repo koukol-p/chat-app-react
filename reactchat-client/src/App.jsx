@@ -11,13 +11,13 @@ export default function App() {
     socket.onopen = () => {
       console.log("WS Connected");
     };
-    socket.onmessage = (msg) => {
-      console.log("Inside onmessage: ", msg);
-      setMessages((prev) => [...prev, JSON.parse(msg.data)]);
-      console.log(messages);
-    };
   }, []);
 
+  socket.onmessage = (receivedMsg) => {
+    const parsedMsg = JSON.parse(receivedMsg.data);
+    setMessages((prev) => [...prev, parsedMsg]);
+  };
+  console.log("SOCKET obj", socket);
   const sendMessage = (msg) => {
     console.log("MSG", msg);
     socket.send(JSON.stringify(msg));
