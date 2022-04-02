@@ -1,17 +1,15 @@
 import React, { useState } from "react";
+import { useChatContext } from "../hooks/useChatContext";
 
 export default function MessageForm({ sendMessage }) {
   const [username, setUsername] = useState("");
   const [msg, setMsg] = useState("");
+
+  const { messageFormSubmit } = useChatContext();
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newMsg = {
-      type: "message",
-      time: new Date().toLocaleTimeString(),
-      username,
-      msg,
-    };
-    sendMessage(newMsg);
+    messageFormSubmit(username, msg);
+    setMsg("");
   };
 
   return (
