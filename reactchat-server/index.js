@@ -6,9 +6,12 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const userRoutes = require("./routes/userRoutes");
+const connect = require("./config/db");
 
 const app = express();
 app.use(cors());
+
+connect();
 
 const server = http.createServer(app);
 const io = require("socket.io")(server, {
@@ -33,6 +36,6 @@ io.on("connection", (socket) => {
 
 app.use("/api/user", userRoutes);
 
-server.listen(5000, () => {
+server.listen(process.env.PORT || 5000, () => {
   console.log("listening on *:5000");
 });
