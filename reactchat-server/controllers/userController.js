@@ -41,7 +41,8 @@ const authUser = asyncHandler(async (req, res) => {
       _id: user._id,
       name: user.name,
       email: user.email,
-      pic: user.pic,
+      // TODO replace user IDs with userObj{name, number}
+      contacts: user.contacts,
       token: generateToken(user._id),
     });
   } else {
