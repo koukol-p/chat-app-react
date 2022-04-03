@@ -1,36 +1,19 @@
-import { createContext, useState, useEffect } from "react";
+import { createContext, useState, useEffect, useContext } from "react";
+import socketClient, { io } from "socket.io-client";
+import { SocketContext } from "./socketContext";
+
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
-  const [socket, setSocket] = useState(
-    new WebSocket("ws://" + "localhost:5000" + "/ws")
-  );
-
-  function receiveMessage(receivedMsg) {
-    const parsedMsg = JSON.parse(receivedMsg.data);
-
-    setMessages((prev) => [...prev, parsedMsg]);
-  }
+  const socket = useContext(SocketContext);
 
   useEffect(() => {
-    socket.onopen = () => {
-      console.log("WS Connected");
-    };
-    setSocket((prev) => {
-      prev.onmessage = receiveMessage;
-      return prev;
+    socket.on("message", (data) => {
+      console.log("CALLBACK");
+      setMessages((prev) => [...prev, data]);
     });
-    return () => {
-      socket.close();
-    };
-  }, []);
-
-  const sendMessage = (msg) => {
-    console.log("MSG", msg);
-    socket.send(JSON.stringify(msg));
-    // socket.send(JSON.stringify("hey"));
-  };
+  }, [socket]);
   const messageFormSubmit = (username, msg) => {
     const newMsg = {
       type: "message",
@@ -38,13 +21,11 @@ export const ChatContextProvider = ({ children }) => {
       username,
       msg,
     };
-    sendMessage(newMsg);
+    socket.emit("message", newMsg);
   };
 
   return (
-    <ChatContext.Provider
-      value={{ messages, socket, messageFormSubmit, receiveMessage }}
-    >
+    <ChatContext.Provider value={{ messages, socket, messageFormSubmit }}>
       {children}
     </ChatContext.Provider>
   );

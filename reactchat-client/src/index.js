@@ -5,11 +5,11 @@ import App from "./App";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { ChatContextProvider } from "./context/ChatContext";
-import { AuthContextProvider } from "./context/AuthContext";
+import { SocketContext, socket } from "./context/socketContext";
 
 ReactDOM.render(
   <React.StrictMode>
-    <AuthContextProvider>
+    <SocketContext.Provider value={socket}>
       <ChatContextProvider>
         <BrowserRouter>
           <Routes>
@@ -19,7 +19,7 @@ ReactDOM.render(
           <Link to="/asfkji">F Off</Link>
         </BrowserRouter>
       </ChatContextProvider>
-    </AuthContextProvider>
+    </SocketContext.Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
