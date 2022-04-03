@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp() {
   const [userName, setUserName] = useState("");
@@ -12,6 +13,7 @@ export default function SignUp() {
   const [error, setError] = useState(null);
 
   const { setUser } = useAuthContext();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,6 +40,7 @@ export default function SignUp() {
         );
         console.log("signup response", data);
         setUser(data);
+        navigate("/");
       } catch (err) {
         setError(err.message);
       } finally {

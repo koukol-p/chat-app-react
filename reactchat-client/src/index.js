@@ -15,13 +15,7 @@ ReactDOM.render(
     <AuthContextProvider>
       <SocketContext.Provider value={socket}>
         <ChatContextProvider>
-          <BrowserRouter>
-            <Routes>
-              <Route exact path="/" element={<App />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/login" element={<Login />} />
-            </Routes>
-          </BrowserRouter>
+          <App />
         </ChatContextProvider>
       </SocketContext.Provider>
     </AuthContextProvider>
