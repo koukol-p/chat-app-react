@@ -39,6 +39,7 @@ export default function SignUp() {
           config
         );
         console.log("signup response", data);
+        localStorage.setItem("userInfo", JSON.stringify(data));
         setUser(data);
         navigate("/");
       } catch (err) {

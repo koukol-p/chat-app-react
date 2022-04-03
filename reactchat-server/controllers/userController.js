@@ -19,12 +19,14 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
+    contactNumber: Math.floor(Math.random() * 1000000000).toString(),
   });
   if (user) {
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
+      contactNumber: user.contactNumber,
       token: generateToken(user._id),
     });
   } else {
@@ -43,6 +45,7 @@ const authUser = asyncHandler(async (req, res) => {
       email: user.email,
       // TODO replace user IDs with userObj{name, number}
       contacts: user.contacts,
+      contactNumber: user.contactNumber,
       token: generateToken(user._id),
     });
   } else {
