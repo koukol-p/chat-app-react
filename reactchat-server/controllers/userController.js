@@ -3,11 +3,13 @@ const generateToken = require("../config/jwt");
 const User = require("../models/userModel");
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { name, email, password, pic } = req.body;
+  const { name, email, password } = req.body;
+
   if (!name || !email || !password) {
     res.status(400);
     throw new Error("Field/s missing");
   }
+  // @TODO improve error message on frontend (send error message json)
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
@@ -17,14 +19,12 @@ const registerUser = asyncHandler(async (req, res) => {
     name,
     email,
     password,
-    pic,
   });
   if (user) {
     res.status(201).json({
       _id: user._id,
       name: user.name,
       email: user.email,
-      pic: user.pic,
       token: generateToken(user._id),
     });
   } else {
@@ -50,22 +50,7 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-const allUsers = asyncHandler(async (req, res) => {
-  const keyword = req.query.search
-    ? {
-        $or: [
-          { name: { $regex: req.query.search, $options: "i" } },
-          { email: { $regex: req.query.search, $options: "i" } },
-        ],
-      }
-    : {};
-
-  const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
-  res.send(users);
-});
-
 module.exports = {
   registerUser,
   authUser,
-  allUsers,
 };
