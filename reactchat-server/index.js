@@ -2,6 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 
+const userRoutes = require("./routes/userRoutes");
+
 const app = express();
 app.use(cors());
 
@@ -11,9 +13,6 @@ const io = require("socket.io")(server, {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"],
   },
-});
-app.get("/", (req, res) => {
-  res.send("<h1>Hello world</h1>");
 });
 
 io.on("connection", (socket) => {
@@ -28,6 +27,8 @@ io.on("connection", (socket) => {
     console.log(socket.id, "disconnected");
   });
 });
+
+app.use("/api/user", userRoutes);
 
 server.listen(5000, () => {
   console.log("listening on *:5000");
