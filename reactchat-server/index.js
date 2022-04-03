@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 
+const dotenv = require("dotenv");
+dotenv.config();
+
 const userRoutes = require("./routes/userRoutes");
 
 const app = express();
