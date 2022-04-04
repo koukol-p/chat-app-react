@@ -35,7 +35,7 @@ export default function Login() {
       localStorage.setItem("userInfo", JSON.stringify(data));
       setUser(data);
       setLoading(false);
-      navigate("/");
+      navigate("/chat");
     } catch (err) {
       setLoading(false);
       setError(err.message);
