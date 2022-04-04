@@ -54,7 +54,26 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+const getUser = asyncHandler(async (req, res) => {
+  const cNumber = req.params.number;
+
+  console.log("cnumber", cNumber);
+  const user = await User.findOne({
+    contactNumber: cNumber,
+  });
+  if (user) {
+    res.status(200).json({
+      name: user.name,
+      contactNumber: user.contactNumber,
+    });
+  } else {
+    res.status(401);
+    throw new Error("User not found");
+  }
+});
+
 module.exports = {
   registerUser,
   authUser,
+  getUser,
 };
