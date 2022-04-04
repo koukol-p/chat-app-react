@@ -24,7 +24,7 @@ export default function App() {
     <div className="min-h-screen">
       <BrowserRouter>
         <Routes>
-          <Route exact path="/chat" element={<Chat />} />
+          <Route exact path="/chat" element={user ? <Chat /> : <Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route exact path="/" element={<Login />} />
         </Routes>

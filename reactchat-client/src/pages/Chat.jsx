@@ -9,6 +9,7 @@ export default function Chat() {
 
   return (
     <div className="flex h-screen">
+      {/* prevent rendering of user-dependent components until user is set */}
       {user && (
         <>
           <div className="min-w-[210px]">
