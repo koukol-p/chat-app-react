@@ -1,5 +1,13 @@
 import React from "react";
 
 export default function ContactList({ contacts }) {
-  return <div>ContactList</div>;
+  return (
+    <div>
+      {contacts.map((c) => (
+        <div>
+          {c.name} {c.contactNumber}
+        </div>
+      ))}
+    </div>
+  );
 }

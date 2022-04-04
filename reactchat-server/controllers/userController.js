@@ -37,7 +37,10 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email }).populate("contacts", [
+    "name",
+    "contactNumber",
+  ]);
   if (user && (await user.matchPassword(password))) {
     res.status(201).json({
       _id: user._id,
@@ -52,6 +55,17 @@ const authUser = asyncHandler(async (req, res) => {
     res.status(401);
     throw new Error("Invalid Email or Password");
   }
+});
+// in case of repeated call while logged in
+const getContacts = asyncHandler(async (req, res) => {
+  const callerID = req.body.callerID;
+  const user = await User.findById(callerID).populate("contacts", [
+    "name",
+    "contactNumber",
+  ]);
+  res.status(200).json({
+    data: user,
+  });
 });
 
 const addContact = asyncHandler(async (req, res) => {
@@ -81,4 +95,5 @@ module.exports = {
   registerUser,
   authUser,
   addContact,
+  getContacts,
 };
