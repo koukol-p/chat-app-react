@@ -54,14 +54,19 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-const getUser = asyncHandler(async (req, res) => {
-  const cNumber = req.params.number;
+const addContact = asyncHandler(async (req, res) => {
+  const cNumber = req.body.contactNumber;
 
   console.log("cnumber", cNumber);
   const user = await User.findOne({
     contactNumber: cNumber,
   });
+
   if (user) {
+    await User.updateOne(
+      { _id: req.body.callerID },
+      { $push: { contacts: user } }
+    );
     res.status(200).json({
       name: user.name,
       contactNumber: user.contactNumber,
@@ -75,5 +80,5 @@ const getUser = asyncHandler(async (req, res) => {
 module.exports = {
   registerUser,
   authUser,
-  getUser,
+  addContact,
 };
