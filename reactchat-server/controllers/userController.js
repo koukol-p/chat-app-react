@@ -71,20 +71,18 @@ const getContacts = asyncHandler(async (req, res) => {
 const addContact = asyncHandler(async (req, res) => {
   const cNumber = req.body.contactNumber;
 
-  console.log("cnumber", cNumber);
   const user = await User.findOne({
     contactNumber: cNumber,
   });
 
   if (user) {
-    await User.updateOne(
-      { _id: req.body.callerID },
+    const result = await User.findOneAndUpdate(
+      { _id: req.user._id },
       { $push: { contacts: user } }
-    );
-    res.status(200).json({
-      name: user.name,
-      contactNumber: user.contactNumber,
-    });
+    ).populate("contacts", ["name", "contactNumber"]);
+    console.log("RESULT", result);
+
+    res.status(200).json(result);
   } else {
     res.status(401);
     throw new Error("User not found");

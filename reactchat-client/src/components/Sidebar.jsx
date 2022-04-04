@@ -4,7 +4,7 @@ import ContactList from "./ContactList";
 
 export default function Sidebar() {
   const { user } = useAuthContext();
-
+  console.log(user);
   return (
     <div className="bg-slate-300 h-full flex flex-col">
       <div className="min-h-[120px] h-[25vh] flex flex-col pt-4">
