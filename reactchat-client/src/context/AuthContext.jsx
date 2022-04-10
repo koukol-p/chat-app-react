@@ -1,6 +1,5 @@
 import {
   createUserWithEmailAndPassword,
-  setPersistence,
   signInWithEmailAndPassword,
   signOut,
   updateProfile

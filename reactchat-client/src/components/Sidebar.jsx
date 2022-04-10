@@ -6,10 +6,12 @@ import ContactList from "./ContactList";
 export default function Sidebar() {
   const { userDetails, userSignOut } = useAuthContext();
   const navigate = useNavigate();
+
   const handleSignOut = () => {
     userSignOut()
     navigate("/")
   }
+  
   return (
     <div className="bg-slate-300 h-full flex flex-col">
       <div className="min-h-[120px] h-[25vh] flex flex-col pt-4">
