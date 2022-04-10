@@ -9,46 +9,17 @@ export default function SignUp() {
   const [pwd, setPwd] = useState("");
   const [pwdConfirm, setPwdConfirm] = useState("");
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  const { setUser } = useAuthContext();
+  const { userSignUp, error, isPending } = useAuthContext();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(false);
-    if (pwd === pwdConfirm) {
-      try {
-        setLoading(true);
-
-        const config = {
-          headers: {
-            "Content-type": "application/json",
-          },
-        };
-        console.log("NAME", userName);
-        console.log("EMAIL", email);
-        const { data } = await axios.post(
-          "http://localhost:5000/api/user/signup",
-          {
-            name: userName,
-            email,
-            password: pwd,
-          },
-          config
-        );
-        console.log("signup response", data);
-        localStorage.setItem("userInfo", JSON.stringify(data));
-        setUser(data);
-        navigate("/");
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
+    if(pwd === pwdConfirm) {
+      userSignUp(email, pwd, userName)
     }
-  };
+  }
+    
 
   return (
     <form onSubmit={handleSubmit}>
@@ -93,7 +64,7 @@ export default function SignUp() {
           onChange={(e) => setPwdConfirm(e.target.value)}
         />
       </div>
-      <button type="submit">Sign Up</button>
+      <button type="submit" disabled={isPending}>Sign Up</button>
     </form>
   );
 }
