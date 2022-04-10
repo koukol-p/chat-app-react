@@ -3,7 +3,7 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import ContactList from "./ContactList";
 
 export default function Sidebar() {
-  const { user } = useAuthContext();
+  const { user, userDetails } = useAuthContext();
   console.log(user);
   return (
     <div className="bg-slate-300 h-full flex flex-col">
@@ -13,7 +13,7 @@ export default function Sidebar() {
           {user.contactNumber}
         </span>
       </div>
-      <ContactList contacts={user.contacts} />
+      <ContactList contacts={userDetails.contacts} />
     </div>
   );
 }

@@ -8,38 +8,15 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [pwd, setPwd] = useState("");
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
-  const { setUser } = useAuthContext();
+  const { userSignIn, isPending, user } = useAuthContext();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-        },
-      };
-      const { data } = await axios.post(
-        "http://localhost:5000/api/user/login",
-        {
-          email,
-          password: pwd,
-        },
-        config
-      );
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      setUser(data);
-      setLoading(false);
-      navigate("/chat");
-    } catch (err) {
-      setLoading(false);
-      setError(err.message);
-    }
+    userSignIn(email, pwd);
+    console.log(user)
+    navigate("/chat")
   };
 
   return (
@@ -65,7 +42,7 @@ export default function Login() {
           onChange={(e) => setPwd(e.target.value)}
         />
       </div>
-      <button type="submit">Log In</button>
+      <button type="submit" disabled={isPending}>Log In</button>
     </form>
   );
 }

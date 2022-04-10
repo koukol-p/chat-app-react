@@ -5,10 +5,11 @@ import Sidebar from "../components/Sidebar";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function Chat() {
-  const { user, setUser } = useAuthContext();
-
+  const { user, userDetails } = useAuthContext();
+  console.log("user details", userDetails)
   return (
     <div className="flex h-screen">
+
       {/* prevent rendering of user-dependent components until user is set */}
       {user && (
         <>
