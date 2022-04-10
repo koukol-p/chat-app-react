@@ -1,16 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import ContactList from "./ContactList";
 
 export default function Sidebar() {
-  const { user, userDetails } = useAuthContext();
-  console.log(user);
+  const { userDetails, userSignOut } = useAuthContext();
+  const navigate = useNavigate();
+  const handleSignOut = () => {
+    userSignOut()
+    navigate("/")
+  }
   return (
     <div className="bg-slate-300 h-full flex flex-col">
       <div className="min-h-[120px] h-[25vh] flex flex-col pt-4">
-        <span className="block text-center">{user.name}</span>
+        <button onClick={handleSignOut}>Log Out</button>
+        <span className="block text-center">{userDetails.userName}</span>
         <span className="block font-bold text-center">
-          {user.contactNumber}
+          {userDetails.contactNumber}
         </span>
       </div>
       <ContactList contacts={userDetails.contacts} />

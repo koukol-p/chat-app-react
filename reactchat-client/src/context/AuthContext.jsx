@@ -1,7 +1,9 @@
 import {
   createUserWithEmailAndPassword,
+  setPersistence,
   signInWithEmailAndPassword,
-  updateProfile,
+  signOut,
+  updateProfile
 } from "firebase/auth";
 import {
   setDoc,
@@ -25,10 +27,21 @@ export const AuthContextProvider = ({ children }) => {
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    setUser(JSON.parse(localStorage.getItem("userAuth")))
+    setUserDetails(JSON.parse(localStorage.getItem("userDetails")))
+  }, [])
+
   // get user object separate from auth object with contactNumber, userName and contacts[]
   const getUserDetails = async (uid) => {
     return getDoc(doc(projectFirestore, "users", uid));
   };
+
+  const userSignOut = async() => {
+    await signOut(projectAuth);
+    localStorage.clear();
+  }
+
 
   const addContact = async (contactNumber) => {
     // try to find user with matching contactNumber
@@ -53,7 +66,9 @@ export const AuthContextProvider = ({ children }) => {
     const detailsSnap = await getUserDetails(user.uid);
     if (detailsSnap.exists()) {
       setUserDetails(detailsSnap.data());
+      localStorage.setItem("userDetails", JSON.stringify(detailsSnap.data()));
     }
+    
   };
 
   const userSignUp = async (email, pwd, userName) => {
@@ -79,9 +94,12 @@ export const AuthContextProvider = ({ children }) => {
       const detailsSnap = await getUserDetails(user.uid);
       if (detailsSnap.exists()) {
         setUserDetails(detailsSnap.data());
+        localStorage.setItem("userDetails", JSON.stringify(detailsSnap.data()));
       }
 
       setUser(user);
+      localStorage.setItem("userAuth", JSON.stringify(user));
+      
       setIsPending(false);
     } catch (err) {
       setIsPending(false);
@@ -102,9 +120,11 @@ export const AuthContextProvider = ({ children }) => {
       const detailsSnap = await getUserDetails(user.uid);
       if (detailsSnap.exists()) {
         setUserDetails(detailsSnap.data());
+        localStorage.setItem("userDetails", JSON.stringify(detailsSnap.data()));
       }
 
       setUser(user);
+      localStorage.setItem("userAuth", JSON.stringify(user));
       setIsPending(false);
     } catch (err) {
       console.log(err);
@@ -120,6 +140,7 @@ export const AuthContextProvider = ({ children }) => {
         userDetails,
         userSignUp,
         userSignIn,
+        userSignOut,
         addContact,
         error,
         isPending,
