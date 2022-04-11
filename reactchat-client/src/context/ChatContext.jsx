@@ -1,50 +1,65 @@
-import { createContext, useState, useEffect, useContext, useCallback, useRef } from "react";
+import {
+  createContext,
+  useState,
+  useEffect,
+  useContext,
+  useCallback,
+  useRef,
+} from "react";
 import socketClient, { io } from "socket.io-client";
-
 
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
-  const [userName, setUserName] = useState("")
+  const [userName, setUserName] = useState("");
+  const [isConfirmed, setIsConfirmed] = useState(false);
   const [room, setRoom] = useState("");
   const [roomStatus, setRoomStatus] = useState([]);
   const socket = useRef();
-
+  console.log(isConfirmed);
   useEffect(() => {
-    socket.current = io("http://localhost:5000", {autoConnect: false});
+    if(isConfirmed) {
+    socket.current = io("http://localhost:5000", { autoConnect: false });
     socket.current.connect();
-    socket.current.on("message", msg => {
-      setMessages(prev => [...prev, msg]);
-      console.log("MESSAGES", messages)
-    })
+    socket.current.on("message", (msg) => {
+      setMessages((prev) => [...prev, msg]);
+      console.log("MESSAGES", messages);
+    });
     socket.current.on("status", (status) => {
       console.log(status);
       setRoomStatus(status);
-    })
- }, []);
+    });
+  }
+  }, [isConfirmed]);
 
   const joinRoom = (roomId) => {
     const joinReq = {
       userName,
       roomId: roomId.trim(),
-
-    }
-    console.log("inside join room")
+    };
+    console.log("inside join room");
     socket.current.emit("join_room", joinReq);
-  }
+  };
+
+  const leaveRoom = (roomId) => {
+    //check if user is in a room (server crash on leaving room when room is not set)
+    if (room) {
+      setRoom("");
+
+      socket.current.emit("leave_room", roomId);
+      setRoomStatus([]);
+    }
+  };
 
   const sendMessage = (msg) => {
     const newMsg = {
       userName,
       msg,
-      room
-    }
+      room,
+    };
     socket.current.emit("message", newMsg);
-  }
-
-
-
+  };
 
   return (
     <ChatContext.Provider
@@ -57,7 +72,10 @@ export const ChatContextProvider = ({ children }) => {
         userName,
         setUserName,
         sendMessage,
-        roomStatus
+        roomStatus,
+        leaveRoom,
+        isConfirmed,
+        setIsConfirmed
       }}
     >
       {children}

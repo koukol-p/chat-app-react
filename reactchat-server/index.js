@@ -1,4 +1,3 @@
-
 const server = require("http").createServer();
 const io = require("socket.io")(server, {
   cors: {
@@ -6,39 +5,47 @@ const io = require("socket.io")(server, {
     methods: ["GET", "POST"],
   },
 });
-//array of all currently connected clients  
+//array of all currently connected clients
 let clients = [];
 
 const filterByRoom = (allClients, roomId) => {
-  const roomClients = Array.from(io.sockets.adapter.rooms.get(roomId));
-  //filter an array of all connected clients and keep only those in specified room
-  const filtered  = allClients.filter(c => roomClients.find(cid => cid === c.ID));
-  return filtered;
-
-
-}
+  const clientSet = io.sockets.adapter.rooms.get(roomId);
+  
+  if (clientSet) {
+    console.log("client set: ", clientSet);
+    const roomClients = Array.from(clientSet);
+    //filter an array of all connected clients and keep only those in specified room
+    const filtered = allClients.filter((c) =>
+      roomClients.find((cid) => cid === c.ID)
+    );
+    return filtered;
+  }
+};
 io.on("connection", (socket) => {
   console.log("user connected");
-  
-  
-  socket.on("join_room", ({userName, roomId}) => {
+
+  socket.on("leave_room", (roomId) => {
+    clients = clients.filter((c) => c.ID !== socket.id);
+    socket.leave(roomId);
+    io.to(roomId).emit("status", filterByRoom(clients, roomId));
+    
+  });
+  socket.on("join_room", ({ userName, roomId }) => {
     socket.userName = userName;
-    clients.push({ID: socket.id, userName})
+    clients.push({ ID: socket.id, userName });
     socket.join(roomId);
-    io.to(roomId).emit("status", filterByRoom(clients, roomId));  
-    console.log(`User ${userName} joined room ${roomId}`)
+    io.to(roomId).emit("status", filterByRoom(clients, roomId));
+    console.log(`User ${userName} joined room ${roomId}`);
+
     socket.on("disconnect", () => {
-      clients = clients.filter(c => c.ID !== socket.id)
-      io.to(roomId).emit("status", filterByRoom(clients, roomId));  
-    })
-  })
-  socket.on("message", ({userName, msg, room}) => {
-    io.to(room).emit("message", {userName, msg});
-  })
- 
-})
-
-
+      clients = clients.filter((c) => c.ID !== socket.id);
+      io.to(roomId).emit("status", filterByRoom(clients, roomId));
+    });
+  });
+  socket.on("message", ({ userName, msg, room }) => {
+    io.to(room).emit("message", { userName, msg });
+  });
+});
 
 const PORT = 5000;
 server.listen(PORT, () =>
