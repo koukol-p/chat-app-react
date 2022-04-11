@@ -1,28 +1,24 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useAuthContext } from "../hooks/useAuthContext";
-import {FaPlusCircle} from "react-icons/fa"
-import { setDoc } from "firebase/firestore";
-import { projectFirestore } from "../firebase/firebaseConfig";
 
-const crypto = require("crypto");
+import {FaPlusCircle} from "react-icons/fa"
 
 
 export default function RoomForm() {
   const [roomName, setRoomName] = useState("");
 
-  const { user, addContact } = useAuthContext();
 
-  const randomId = () => crypto.randomBytes(8).toString("hex");
+
+//   const randomId = () => crypto.randomBytes(8).toString("hex");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const id = randomId();
+    // const id = randomId();
     const newRoom = {
-        roomId: id,
+        roomId: 1,
         roomName,
     }
-    await setDoc(doc(projectFirestore, "rooms", id), newRoom);
+    
    
     
   };
@@ -35,8 +31,8 @@ export default function RoomForm() {
           id="number"
           type="number"
           placeholder="Create Room"
-          value={number}
-          onChange={(e) => setNumber(e.target.value)}
+          value={roomName}
+          onChange={(e) => setRoomName(e.target.value)}
         />
         <button className="pl-2" type="submit"><FaPlusCircle color="white" size={24} /></button>
       </form>

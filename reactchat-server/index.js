@@ -7,15 +7,9 @@ const io = require("socket.io")(server, {
   },
 });
 
-io.use((socket, next) => {
-  const contactNumber = socket.handshake.auth.contactNumber;
-  if (!contactNumber) {
-    return next(new Error("invalid CNe"));
-  }
-  socket.contactNumber = contactNumber;
-  next();
-});
-io.on("connection", (socket) => {
+
+io.on("connect", (socket) => {
+  console.log("user connected")
   socket.on("setup", (userData) => {
     socket.join(userData.contactNumber);
     console.log(userData)

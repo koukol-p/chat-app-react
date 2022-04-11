@@ -1,34 +1,30 @@
 import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import { useAuthContext } from "./hooks/useAuthContext";
-
-import Login from "./pages/Login";
-import SignUp from "./pages/SignUp";
-import Chat from "./pages/Chat";
-
-export default function App() {
-  const { user, setUser } = useAuthContext();
-
-  useEffect(() => {
-    console.log("useEffect from App");
-    const localUser = localStorage.getItem("userInfo");
-    console.log(localUser);
-    if (localUser) {
-      const parsedUser = JSON.parse(localUser);
-      setUser(parsedUser);
-    }
-  }, []);
+import Sidebar from "./components/Sidebar";
+import Messages from "./components/Messages"
+import MessageForm from "./components/MessageForm"
+import { useChatContext } from "./hooks/useChatContext";
+export default function App() { 
+  const {socket} = useChatContext()
 
   return (
-    <div className="min-h-screen">
-      <BrowserRouter>
-        <Routes>
-          <Route exact path="/chat" element={user ? <Chat /> : <Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route exact path="/" element={<Login />} />
-        </Routes>
-      </BrowserRouter>
+      <div className="flex h-screen">
+      {/* prevent rendering of user-dependent components until user is set */}
+  
+        <>
+          <div className="min-w-[210px] min-h-screen">
+            <Sidebar />
+          </div>
+          <div className="flex flex-col flex-grow justify-center mx-8">
+
+              <>
+                <Messages />
+                <MessageForm />
+              </>
+
+          </div>
+        </>
     </div>
+
   );
 }
