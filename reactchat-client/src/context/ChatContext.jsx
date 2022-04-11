@@ -5,6 +5,7 @@ import { SocketContext } from "./socketContext";
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children }) => {
+  const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const socket = useContext(SocketContext);
 
@@ -25,7 +26,7 @@ export const ChatContextProvider = ({ children }) => {
   };
 
   return (
-    <ChatContext.Provider value={{ messages, socket, messageFormSubmit }}>
+    <ChatContext.Provider value={{ messages, socket, messageFormSubmit, selectedChat, setSelectedChat }}>
       {children}
     </ChatContext.Provider>
   );
