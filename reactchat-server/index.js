@@ -8,9 +8,10 @@ const io = require("socket.io")(server, {
 });
 //array of all currently connected clients  
 const clients = [];
+
 const filterByRoom = (allClients, roomId) => {
   const roomClients = Array.from(io.sockets.adapter.rooms.get(roomId));
-  //filter array of all connected clients and keep only those in specified room
+  //filter an array of all connected clients and keep only those in specified room
   const filtered  = allClients.filter(c => roomClients.find(cid => cid === c.ID));
   return filtered;
 
@@ -24,8 +25,7 @@ io.on("connection", (socket) => {
     socket.userName = userName;
     clients.push({ID: socket.id, userName})
     socket.join(roomId);
-    socket.emit("status", filterByRoom(clients, roomId));  
-    console.log("clients:", clients)
+    io.to(roomId).emit("status", filterByRoom(clients, roomId));  
     console.log(`User ${userName} joined room ${roomId}`)
   })
   socket.on("message", ({userName, msg, room}) => {

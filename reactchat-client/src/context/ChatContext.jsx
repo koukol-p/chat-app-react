@@ -8,7 +8,7 @@ export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [userName, setUserName] = useState("")
   const [room, setRoom] = useState("");
-  
+  const [roomStatus, setRoomStatus] = useState([]);
   const socket = useRef();
 
   useEffect(() => {
@@ -20,6 +20,7 @@ export const ChatContextProvider = ({ children }) => {
     })
     socket.current.on("status", (status) => {
       console.log(status);
+      setRoomStatus(status);
     })
  }, []);
 
@@ -55,7 +56,8 @@ export const ChatContextProvider = ({ children }) => {
         joinRoom,
         userName,
         setUserName,
-        sendMessage
+        sendMessage,
+        roomStatus
       }}
     >
       {children}
