@@ -2,7 +2,6 @@ import React from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { useChatContext } from "../hooks/useChatContext";
 import JoinRoomForm from "./JoinRoomForm";
-import RoomForm from "./RoomForm";
 import RoomStatus from "./RoomStatus";
 export default function Sidebar() {
 
@@ -14,12 +13,13 @@ export default function Sidebar() {
     <div className="bg-orange-200 min-h-screen">
       <div className="pr-2 bg-orange-700 py-2 min-h-[64px]  flex justify-between border-b">
       <FaUserAlt className="self-center mx-4" size={24} color="white" />
-      <input className="self-center p-1 grow" placeholder="Username" type="text" value={userName} onChange={e => setUserName(e.target.value)} />
+      {/* prevent userName change after joining any room */}
+      <input disabled={room} className="self-center p-1 grow" placeholder="Username" type="text" value={userName} onChange={e => setUserName(e.target.value)} />
           
       </div>
-      <RoomForm />
-      <RoomStatus />
       <JoinRoomForm />
+      <RoomStatus />
+      
     </div>
   );
 }

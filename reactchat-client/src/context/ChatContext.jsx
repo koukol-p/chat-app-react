@@ -8,6 +8,7 @@ export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [userName, setUserName] = useState("")
   const [room, setRoom] = useState("");
+  
   const socket = useRef();
 
   useEffect(() => {
@@ -17,12 +18,15 @@ export const ChatContextProvider = ({ children }) => {
       setMessages(prev => [...prev, msg]);
       console.log("MESSAGES", messages)
     })
+    socket.current.on("status", (status) => {
+      console.log(status);
+    })
  }, []);
 
   const joinRoom = (roomId) => {
     const joinReq = {
       userName,
-      roomId,
+      roomId: roomId.trim(),
 
     }
     console.log("inside join room")
