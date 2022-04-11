@@ -7,7 +7,7 @@ const io = require("socket.io")(server, {
   },
 });
 //array of all currently connected clients  
-const clients = [];
+let clients = [];
 
 const filterByRoom = (allClients, roomId) => {
   const roomClients = Array.from(io.sockets.adapter.rooms.get(roomId));
@@ -27,10 +27,15 @@ io.on("connection", (socket) => {
     socket.join(roomId);
     io.to(roomId).emit("status", filterByRoom(clients, roomId));  
     console.log(`User ${userName} joined room ${roomId}`)
+    socket.on("disconnect", () => {
+      clients = clients.filter(c => c.ID !== socket.id)
+      io.to(roomId).emit("status", filterByRoom(clients, roomId));  
+    })
   })
   socket.on("message", ({userName, msg, room}) => {
     io.to(room).emit("message", {userName, msg});
   })
+ 
 })
 
 
