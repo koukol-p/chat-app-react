@@ -1,13 +1,5 @@
-const express = require("express");
-const cors = require("cors");
-const http = require("http");
-const dotenv = require("dotenv");
 
-dotenv.config();
-
-
-
-const server = http.createServer();
+const server = require("http").createServer();
 const io = require("socket.io")(server, {
   cors: {
     origin: "http://localhost:3000",
@@ -18,23 +10,27 @@ const io = require("socket.io")(server, {
 io.use((socket, next) => {
   const contactNumber = socket.handshake.auth.contactNumber;
   if (!contactNumber) {
-    return next(new Error("invalid contact number"));
+    return next(new Error("invalid CNe"));
   }
-  console.log("CN: ", contactNumber);
   socket.contactNumber = contactNumber;
   next();
-})
+});
 io.on("connection", (socket) => {
-  const users = [];
-  for (let [id, socket] of io.of("/").sockets) {
-    users.push({
-      userID: id,
-      contactNumber: socket.contactNumber,
-    });
-  }
-  socket.emit("users", users);
+  socket.on("setup", (userData) => {
+    socket.join(userData.contactNumber);
+    console.log(userData)
+    socket.emit("connected");
+  })
+
+  socket.on("join chat", (room) => {
+    socket.join(room);
+    console.log("User joined room ",room)
+  })
 })
 
-server.listen(process.env.PORT || 5000, () => {
-  console.log("listening on *:5000");
-});
+
+
+const PORT = 5000;
+server.listen(PORT, () =>
+  console.log(`server listening at http://localhost:${PORT}`)
+);

@@ -8,7 +8,7 @@ export default function MessageForm({ sendMessage }) {
   const { messageFormSubmit } = useChatContext();
   const handleSubmit = (e) => {
     e.preventDefault();
-    messageFormSubmit(username, msg);
+    messageFormSubmit(msg);
     setMsg("");
   };
 

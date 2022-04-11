@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect, useContext, useCallback } from "react";
 import socketClient, { io } from "socket.io-client";
 import { useAuthContext } from "../hooks/useAuthContext";
 
@@ -8,40 +8,53 @@ export const ChatContextProvider = ({ children }) => {
   const [selectedChat, setSelectedChat] = useState(null);
   const [messages, setMessages] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
+  const [sessionId, setSessionId] = useState("");
 
   const { userDetails } = useAuthContext();
   const socket = io("http://localhost:5000", { autoConnect: false });
+  console.log("SESSION_ID", sessionId)
+
   useEffect(() => {
     if (userDetails) {
-      socket.auth = { contactNumber: userDetails.contactNumber };
+      socket.auth = { contactNumber: userDetails.contactNumber, username: userDetails.userName };
       socket.connect();
 
+      socket.emit("setup", userDetails);
+      socket.on("connection", () => {});
       
-      socket.on("users", (users) => {
-        setOnlineUsers(users);
-
-        //DEV logs all current users
-        console.log("online---")
-        users.forEach((user) => {
-          console.log(user);
-        })
-        console.log("online---")
-      })
-
-
     }
   }, [userDetails]);
 
+  const privateMessage = useCallback(({content, from, to}) => {
+    const newMessage = {
+      userId: from,
+      username: from.username,
+      message: content,
+    }
+    setMessages([...messages, newMessage])
+    console.log(messages)
+
+  }, [])
+  useEffect(() => {
+    socket.on("private_message", (message) => {
+      privateMessage(message);
+
+    })
+  }, [selectedChat, privateMessage])
   
 
-  const messageFormSubmit = (username, msg) => {
-    const newMsg = {
-      type: "message",
-      time: new Date().toLocaleTimeString(),
-      username,
-      msg,
-    };
-    socket.emit("message", newMsg);
+
+  const startChat = (contact) => {
+    setSelectedChat(contact);
+
+  }
+
+  const messageFormSubmit = (msg) => {
+    socket.emit("private message", {
+      content: msg,
+      to: selectedChat.contactNumber
+    });
+
   };
 
   return (
@@ -52,7 +65,8 @@ export const ChatContextProvider = ({ children }) => {
         messageFormSubmit,
         selectedChat,
         setSelectedChat,
-        onlineUsers
+        onlineUsers,
+        startChat
       }}
     >
       {children}
