@@ -6,11 +6,11 @@ import { useChatContext } from "./hooks/useChatContext";
 export default function App() { 
   const {socket} = useChatContext()
   //find better place to connect
-  socket.connect();
+  
+
   return (
       <div className="flex h-screen">
-      {/* prevent rendering of user-dependent components until user is set */}
-  
+
         <>
           <div className="min-w-[210px] min-h-screen">
             <Sidebar />

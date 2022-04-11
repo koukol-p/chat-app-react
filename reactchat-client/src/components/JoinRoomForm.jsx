@@ -10,9 +10,10 @@ export default function JoinRoomForm() {
 
   const handleSubmit = async (e) => {
 
-    console.log("SOCKET STATUS: ", socket.connected)
-    if(roomIdInput !== "" && socket.connected) {
+    console.log("SOCKET STATUS: ", socket.current.connected)
+    if(roomIdInput !== "" && socket.current.connected) {
         console.log("inside handler")
+        setRoom(roomIdInput);
         joinRoom(roomIdInput);
     }
     

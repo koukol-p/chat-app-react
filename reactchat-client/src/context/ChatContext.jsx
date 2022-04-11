@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext, useCallback } from "react";
+import { createContext, useState, useEffect, useContext, useCallback, useRef } from "react";
 import socketClient, { io } from "socket.io-client";
 
 
@@ -8,9 +8,16 @@ export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [userName, setUserName] = useState("")
   const [room, setRoom] = useState("");
-  const socket = io("http://localhost:5000", { autoConnect: false });
+  const socket = useRef();
 
-  
+  useEffect(() => {
+    socket.current = io("http://localhost:5000", {autoConnect: false});
+    socket.current.connect();
+    socket.current.on("message", msg => {
+      setMessages(prev => [...prev, msg]);
+      console.log("MESSAGES", messages)
+    })
+ }, []);
 
   const joinRoom = (roomId) => {
     const joinReq = {
@@ -19,7 +26,16 @@ export const ChatContextProvider = ({ children }) => {
 
     }
     console.log("inside join room")
-    socket.emit("join_room", joinReq);
+    socket.current.emit("join_room", joinReq);
+  }
+
+  const sendMessage = (msg) => {
+    const newMsg = {
+      userName,
+      msg,
+      room
+    }
+    socket.current.emit("message", newMsg);
   }
 
 
@@ -34,7 +50,8 @@ export const ChatContextProvider = ({ children }) => {
         setRoom,
         joinRoom,
         userName,
-        setUserName
+        setUserName,
+        sendMessage
       }}
     >
       {children}
