@@ -7,7 +7,7 @@ export const ChatContext = createContext();
 export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
   const [userName, setUserName] = useState("XO")
-  const [userNameConfirm, setUserNameConfirm] = useState(false);
+  const [room, setRoom] = useState("");
   const socket = io("http://localhost:5000", { autoConnect: false });
 
   useEffect(() => {
@@ -16,7 +16,7 @@ export const ChatContextProvider = ({ children }) => {
     return () => {
       socket.close()
     }
-  }, [userNameConfirm])
+  }, [])
   
 
 
@@ -27,6 +27,8 @@ export const ChatContextProvider = ({ children }) => {
       value={{
         messages,
         socket,
+        room,
+        setRoom
       }}
     >
       {children}

@@ -1,24 +1,24 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-import ContactList from "./ContactList";
-import { FaSignOutAlt } from "react-icons/fa";
+import { FaUserAlt } from "react-icons/fa";
+import { useChatContext } from "../hooks/useChatContext";
+import JoinRoomForm from "./JoinRoomForm";
+import RoomForm from "./RoomForm";
+import RoomStatus from "./RoomStatus";
 export default function Sidebar() {
 
+  const {room} = useChatContext();
 
 
   return (
     <div className="bg-orange-200 min-h-screen">
-      <div className="px-2 bg-orange-700  flex justify-between border-b">
-        <div
-          className={`py-8 flex flex-col cursor-pointer p-2 text-white`}
-        >
-
-        </div>
-        <button >
-          <FaSignOutAlt size={24} color="white" />
-        </button>
+      <div className="pr-2 bg-orange-700 py-2 min-h-[64px]  flex justify-between border-b">
+      <FaUserAlt className="self-center mx-4" size={24} color="white" />
+      <input className="self-center p-1 grow" placeholder="Username" type="text" />
+          
       </div>
-      <ContactList />
+      <RoomForm />
+      <RoomStatus />
+      <JoinRoomForm />
     </div>
   );
 }
