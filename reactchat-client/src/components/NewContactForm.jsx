@@ -16,16 +16,16 @@ export default function NewContactForm({ show }) {
 
   return (
     
-      <form className="bg-slate-400 py-2 px-2 mb-1 flex justify-between w-full align-middle"  onSubmit={handleSubmit}>
+      <form className="bg-orange-700 py-2 px-2 mb-1 flex justify-between w-full"  onSubmit={handleSubmit}>
         <input
-        className="p-1"
+        className="p-[4px] grow"
           id="number"
           type="number"
           placeholder="New Contact Number"
           value={number}
           onChange={(e) => setNumber(e.target.value)}
         />
-        <button className="pl-2" type="submit"><FaPlusCircle size={32} /></button>
+        <button className="pl-2" type="submit"><FaPlusCircle color="white" size={24} /></button>
       </form>
     
   );
