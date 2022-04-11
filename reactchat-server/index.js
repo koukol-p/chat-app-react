@@ -8,17 +8,12 @@ const io = require("socket.io")(server, {
 });
 
 
-io.on("connect", (socket) => {
-  console.log("user connected")
-  socket.on("setup", (userData) => {
-    socket.join(userData.contactNumber);
-    console.log(userData)
-    socket.emit("connected");
-  })
-
-  socket.on("join chat", (room) => {
-    socket.join(room);
-    console.log("User joined room ",room)
+io.on("connection", (socket) => {
+  console.log("user connected");
+  socket.on("join_room", ({userName, roomId}) => {
+    
+    socket.join(roomId);
+    console.log(`User ${userName} joined room ${roomId}`)
   })
 })
 

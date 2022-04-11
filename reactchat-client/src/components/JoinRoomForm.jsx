@@ -5,14 +5,16 @@ import { useChatContext } from "../hooks/useChatContext";
 
 
 export default function JoinRoomForm() {
-  const {setRoom} = useChatContext();
-
+  const {socket, setRoom, joinRoom} = useChatContext();    
+  const [roomIdInput, setRoomIdInput] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const roomId = nanoid()
-    console.log(roomId)
-    setRoom(roomId)
+
+    console.log("SOCKET STATUS: ", socket.connected)
+    if(roomIdInput !== "" && socket.connected) {
+        console.log("inside handler")
+        joinRoom(roomIdInput);
+    }
     
    
     
@@ -23,8 +25,8 @@ export default function JoinRoomForm() {
       <div className="px-4 mt-8 bg-orange-700 py-2 flex border-b w-full justify-between">
         
         
-        <input className="p-1 self-center" type="text" placeholder="Enter Room ID" />
-        <button><FaDoorOpen className="self-" color="white" size={24} /></button>
+        <input className="p-1 self-center" type="text" placeholder="Enter Room ID" value={roomIdInput} onChange={e => setRoomIdInput(e.target.value)} />
+        <button onClick={handleSubmit}><FaDoorOpen className="self-" color="white" size={24} /></button>
       </div>
     
   );

@@ -6,14 +6,15 @@ import RoomForm from "./RoomForm";
 import RoomStatus from "./RoomStatus";
 export default function Sidebar() {
 
-  const {room} = useChatContext();
+  const {room, userName, setUserName} = useChatContext();
 
+  
 
   return (
     <div className="bg-orange-200 min-h-screen">
       <div className="pr-2 bg-orange-700 py-2 min-h-[64px]  flex justify-between border-b">
       <FaUserAlt className="self-center mx-4" size={24} color="white" />
-      <input className="self-center p-1 grow" placeholder="Username" type="text" />
+      <input className="self-center p-1 grow" placeholder="Username" type="text" value={userName} onChange={e => setUserName(e.target.value)} />
           
       </div>
       <RoomForm />

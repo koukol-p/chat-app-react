@@ -5,7 +5,8 @@ import MessageForm from "./components/MessageForm"
 import { useChatContext } from "./hooks/useChatContext";
 export default function App() { 
   const {socket} = useChatContext()
-
+  //find better place to connect
+  socket.connect();
   return (
       <div className="flex h-screen">
       {/* prevent rendering of user-dependent components until user is set */}

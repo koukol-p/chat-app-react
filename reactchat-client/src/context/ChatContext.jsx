@@ -6,18 +6,21 @@ export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
-  const [userName, setUserName] = useState("XO")
+  const [userName, setUserName] = useState("")
   const [room, setRoom] = useState("");
   const socket = io("http://localhost:5000", { autoConnect: false });
 
-  useEffect(() => {
-    
-
-    return () => {
-      socket.close()
-    }
-  }, [])
   
+
+  const joinRoom = (roomId) => {
+    const joinReq = {
+      userName,
+      roomId,
+
+    }
+    console.log("inside join room")
+    socket.emit("join_room", joinReq);
+  }
 
 
 
@@ -28,7 +31,10 @@ export const ChatContextProvider = ({ children }) => {
         messages,
         socket,
         room,
-        setRoom
+        setRoom,
+        joinRoom,
+        userName,
+        setUserName
       }}
     >
       {children}
