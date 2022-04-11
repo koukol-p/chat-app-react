@@ -5,17 +5,9 @@ const dotenv = require("dotenv");
 
 dotenv.config();
 
-const userRoutes = require("./routes/userRoutes");
-const connect = require("./config/db");
 
-const app = express();
-app.use(cors());
-app.use(express.json());
 
-// DB connection
-connect();
-
-const server = http.createServer(app);
+const server = http.createServer();
 const io = require("socket.io")(server, {
   cors: {
     origin: "http://localhost:3000",
@@ -23,20 +15,25 @@ const io = require("socket.io")(server, {
   },
 });
 
+io.use((socket, next) => {
+  const contactNumber = socket.handshake.auth.contactNumber;
+  if (!contactNumber) {
+    return next(new Error("invalid contact number"));
+  }
+  console.log("CN: ", contactNumber);
+  socket.contactNumber = contactNumber;
+  next();
+})
 io.on("connection", (socket) => {
-  console.log(socket.id, "connected");
-
-  socket.on("message", (data) => {
-    console.log(data);
-    io.emit("message", data);
-  });
-
-  socket.on("disconnect", (socket) => {
-    console.log(socket.id, "disconnected");
-  });
-});
-
-app.use("/api/user", userRoutes);
+  const users = [];
+  for (let [id, socket] of io.of("/").sockets) {
+    users.push({
+      userID: id,
+      contactNumber: socket.contactNumber,
+    });
+  }
+  socket.emit("users", users);
+})
 
 server.listen(process.env.PORT || 5000, () => {
   console.log("listening on *:5000");
