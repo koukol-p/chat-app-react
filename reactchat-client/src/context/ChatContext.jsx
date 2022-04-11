@@ -52,6 +52,7 @@ export const ChatContextProvider = ({ children }) => {
         messageFormSubmit,
         selectedChat,
         setSelectedChat,
+        onlineUsers
       }}
     >
       {children}
