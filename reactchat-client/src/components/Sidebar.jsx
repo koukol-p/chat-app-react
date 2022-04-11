@@ -11,7 +11,7 @@ export default function Sidebar() {
     userSignOut()
     navigate("/")
   }
-  
+
   return (
     <div className="bg-slate-300 h-full flex flex-col">
       <div className="min-h-[120px] h-[25vh] flex flex-col pt-4">
@@ -20,6 +20,7 @@ export default function Sidebar() {
         <span className="block font-bold text-center">
           {userDetails.contactNumber}
         </span>
+
       </div>
       <ContactList contacts={userDetails.contacts} />
     </div>
