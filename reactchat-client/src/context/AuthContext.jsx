@@ -50,7 +50,6 @@ export const AuthContextProvider = ({ children }) => {
 
   const userSignOut = async() => {
     await signOut(projectAuth);
-    localStorage.clear();
   }
 
 
@@ -86,7 +85,6 @@ export const AuthContextProvider = ({ children }) => {
         email,
         pwd
       );
-      console.log("USERCRED", user);
 
       //generate 9-digit number - todo: make sure it's unique
       const contactNumber = Math.floor(Math.random() * 1000000000).toString();
@@ -97,15 +95,8 @@ export const AuthContextProvider = ({ children }) => {
         contactNumber: contactNumber,
         contacts: [],
       });
-      const detailsSnap = await getUserDetails(user.uid);
-      if (detailsSnap.exists()) {
-        setUserDetails(detailsSnap.data());
-        // localStorage.setItem("userDetails", JSON.stringify(detailsSnap.data()));
-      }
 
       setUser(user);
-      // localStorage.setItem("userAuth", JSON.stringify(user));
-      
       setIsPending(false);
     } catch (err) {
       setIsPending(false);
@@ -123,14 +114,8 @@ export const AuthContextProvider = ({ children }) => {
         pwd
       );
       console.log("userCred from Sign In", user);
-      const detailsSnap = await getUserDetails(user.uid);
-      if (detailsSnap.exists()) {
-        setUserDetails(detailsSnap.data());
-        // localStorage.setItem("userDetails", JSON.stringify(detailsSnap.data()));
-      }
 
       setUser(user);
-      // localStorage.setItem("userAuth", JSON.stringify(user));
       setIsPending(false);
     } catch (err) {
       console.log(err);
