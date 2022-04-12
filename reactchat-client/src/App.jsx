@@ -8,7 +8,7 @@ export default function App() {
   //find better place to connect
 
   return (
-    <div className="h-screen flex flex-col">
+    <div className="h-screen flex flex-col md:flex-row">
       <Sidebar />
         {room && (
           <>

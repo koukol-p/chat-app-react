@@ -46,7 +46,7 @@ export const ChatContextProvider = ({ children }) => {
     //check if user is in a room (server crash on leaving room when room is not set)
     if (room) {
       setRoom("");
-
+      setMessages([])
       socket.current.emit("leave_room", roomId);
       setRoomStatus([]);
     }
