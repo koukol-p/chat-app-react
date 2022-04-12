@@ -12,7 +12,7 @@ export default function MessageForm() {
   };
 
   return (
-    <form className="flex bg-orange-700 flex-col mt-2 py-4 px-6" onSubmit={handleSubmit}>
+    <form className="flex bg-orange-700 flex-col p-4 md:col-start-2" onSubmit={handleSubmit}>
     
       <input
         id="msg"
