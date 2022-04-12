@@ -12,11 +12,8 @@ export default function MessageForm() {
   };
 
   return (
-    <form className="flex flex-col mt-2" onSubmit={handleSubmit}>
-      
-      <label htmlFor="msg" className="flex flex-row justify-between">
-        Message:
-      </label>
+    <form className="flex bg-orange-700 flex-col mt-2 py-4 px-6" onSubmit={handleSubmit}>
+    
       <input
         id="msg"
         value={msg}
@@ -26,10 +23,10 @@ export default function MessageForm() {
             handleSubmit();
           }
         }}
-        className="border-cyan-500 border resize-none"
+        className="border-cyan-500 border"
         type="text"
       />
-      <button className="w-full bg-orange-700 text-orange-50 " type="submit">
+      <button className="bg-orange-500 text-orange-50 mt-2 border-orange-800 border " type="submit">
         Send
       </button>
     </form>
