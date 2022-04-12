@@ -17,7 +17,7 @@ export default function MessageForm() {
       <label htmlFor="msg" className="flex flex-row justify-between">
         Message:
       </label>
-      <textarea
+      <input
         id="msg"
         value={msg}
         onChange={(e) => setMsg(e.target.value)}
@@ -26,7 +26,7 @@ export default function MessageForm() {
             handleSubmit();
           }
         }}
-        className="border-cyan-500 border resize-none min-h-[90px]"
+        className="border-cyan-500 border resize-none"
         type="text"
       />
       <button className="w-full bg-orange-700 text-orange-50 " type="submit">

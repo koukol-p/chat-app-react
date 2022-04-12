@@ -4,7 +4,7 @@ import Messages from "./components/Messages"
 import MessageForm from "./components/MessageForm"
 import { useChatContext } from "./hooks/useChatContext";
 export default function App() { 
-  const {socket} = useChatContext()
+  const {socket, room} = useChatContext()
   //find better place to connect
   
 
@@ -17,11 +17,12 @@ export default function App() {
           </div>
           <div className="flex flex-col flex-grow justify-center mx-8">
 
+            {room && (
               <>
                 <Messages />
                 <MessageForm />
               </>
-
+            )}
           </div>
         </>
     </div>
