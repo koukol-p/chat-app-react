@@ -15,7 +15,7 @@ export default function Sidebar() {
   }
 
   return (
-    <div className="bg-orange-200 md:min-h-screen min-w-[260px]">
+    <div className="bg-orange-200 md:min-w-[260px]">
       <form onSubmit={handleNameConfirm} className="px-4 bg-orange-700 py-3 flex border-b w-full justify-between">
       {/* prevent userName change after joining any room */}
       <input disabled={room || isConfirmed} className="self-center p-1" placeholder="Username" type="text" value={userName} onChange={e => setUserName(e.target.value)} />

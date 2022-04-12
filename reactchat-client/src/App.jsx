@@ -8,21 +8,14 @@ export default function App() {
   //find better place to connect
 
   return (
-    <div className="max-h-screen">
-    <div className="flex flex-col grow md:flex-row h-[100vh] ">
-      <>
-        <div className="md:min-h-screen">
-          <Sidebar />
-        </div>
+    <div className="h-screen flex flex-col">
+      <Sidebar />
         {room && (
-          <div className="flex flex-col justify-between grow">
+          <>
             <Messages />
-
             <MessageForm />
-          </div>
+          </>
         )}
-      </>
-    </div>
     </div>
   );
 }
