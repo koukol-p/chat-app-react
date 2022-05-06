@@ -1,0 +1,33 @@
+@import "../variables";
+
+.auth-forms {
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.3);
+  .auth-forms-header {
+    display: flex;
+    justify-content: space-evenly;
+
+    .select-form {
+      background-color: $primary-lighter;
+      width: 100%;
+      text-align: center;
+      padding: 12px 8px;
+      cursor: pointer;
+
+      &.active {
+        background-color: $primary-light;
+      }
+      &:first-child {
+        border-top-left-radius: 4px;
+      }
+      &:last-child {
+        border-top-right-radius: 4px;
+      }
+    }
+  }
+}
+@media (min-width: 768px) {
+  .auth-forms {
+    width: 400px;
+    margin: 40px auto;
+  }
+}
