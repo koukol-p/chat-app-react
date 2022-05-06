@@ -5,7 +5,7 @@ export default function Message({ message }) {
     <div className="message">
       <p>
         <span className="">{message.time} </span>
-        <span className="font-bold">{message.userName}: </span>
+        <span className="bold">{message.userName}: </span>
         {message.msg}
       </p>
     </div>

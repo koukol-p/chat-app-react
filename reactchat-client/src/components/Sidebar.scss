@@ -1,6 +1,6 @@
-// bg-orange-200 md:min-w-[260px] md:h-screen md:row-span-2
+@import "../variables";
 .sidebar-container {
-  background-color: orange;
+  background-color: $primary;
   display: flex;
   flex-direction: row;
   grid-row-start: 1;

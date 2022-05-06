@@ -1,8 +1,16 @@
-// className="flex bg-orange-700 flex-col p-4 md:col-start-2"
+@import "../variables";
 .message {
   display: flex;
   flex-direction: column;
-  padding: 0.5rem;
+  padding: 4px;
   margin-bottom: 4px;
-  background-color: orange;
+  background-color: $primary-light;
+  border-radius: 4px;
+  box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.2);
+  p {
+    padding: 0;
+  }
+  span.bold {
+    font-weight: bold;
+  }
 }

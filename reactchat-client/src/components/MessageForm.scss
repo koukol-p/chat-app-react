@@ -1,22 +1,32 @@
-// className="flex bg-orange-700 flex-col p-4 md:col-start-2"
+@import "../variables";
 .message-form {
   display: flex;
   flex-direction: column;
-  background-color: orange;
+  background-color: $primary;
   padding: 1rem;
   grid-row-start: 3;
   grid-column-start: 1;
   grid-column-end: 3;
 
-  input {
+  textarea {
     border: 1px solid black;
+    resize: none;
+    padding: 4px;
   }
 
   button {
-    background-color: orange;
+    background-color: $accent-light;
+    border-radius: 4px;
     color: black;
     margin-top: 0.5rem;
+    padding: 8px;
     border: 1px solid black;
+    box-shadow: 2px 3px 4px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+
+    &:hover {
+      background-color: $accent;
+    }
   }
 }
 @media (min-width: 768px) {

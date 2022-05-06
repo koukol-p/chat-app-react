@@ -14,7 +14,8 @@ export default function MessageForm() {
 
   return (
     <form className="message-form" onSubmit={handleSubmit}>
-      <input
+      <textarea
+        rows={4}
         id="msg"
         value={msg}
         onChange={(e) => setMsg(e.target.value)}
