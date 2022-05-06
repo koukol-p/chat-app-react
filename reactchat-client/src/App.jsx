@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "./components/Sidebar";
-import Messages from "./components/Messages";
-import MessageForm from "./components/MessageForm";
-import { useChatContext } from "./hooks/useChatContext";
+
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import MainPage from "./pages/MainPage";
+import AuthPage from "./pages/AuthPage";
 export default function App() {
-  const { socket, room } = useChatContext();
   //find better place to connect
 
   return (
     <div id="grid-layout">
-        <Sidebar />
-        {room && (
-          <>
-            <Messages />
-            <MessageForm />
-          </>
-        )}
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<MainPage />} />
+          <Route path="/auth" element={<AuthPage />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
