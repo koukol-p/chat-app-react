@@ -1,0 +1,8 @@
+// className="flex bg-orange-700 flex-col p-4 md:col-start-2"
+.message {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem;
+  margin-bottom: 4px;
+  background-color: orange;
+}

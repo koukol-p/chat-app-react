@@ -1,8 +1,8 @@
 import React from "react";
-
+import "./Message.scss";
 export default function Message({ message }) {
   return (
-    <div className="w-100 my-[2px] bg-orange-200 p-2">
+    <div className="message">
       <p>
         <span className="">{message.time} </span>
         <span className="font-bold">{message.userName}: </span>

@@ -1,6 +1,7 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+body {
+  margin: 0;
+  padding: 0;
+}
 /* Chrome, Safari, Edge, Opera */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -17,16 +18,6 @@ html, body {
   min-height:100%;
 }
 #grid-layout {
-  display: grid;
-  height: 100vh;
-  max-height: 100vh;
-  grid-gap: 8px;
-  grid-template-rows: min-content auto min-content;
+
 }
 
-@media (min-width: 768px) {
-  #grid-layout {
-    grid-template-columns: min-content auto;
-    grid-template-rows: 1fr min-content;
-  }
-}

@@ -1,0 +1,26 @@
+// bg-orange-200 md:min-w-[260px] md:h-screen md:row-span-2
+.sidebar-container {
+  background-color: orange;
+  display: flex;
+  flex-direction: row;
+  grid-row-start: 1;
+  grid-column-start: 1;
+  grid-column-end: 3;
+  form {
+    // "px-4 bg-orange-700 py-3 flex border-b w-full justify-between"
+    padding: 10px 1rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+}
+@media (min-width: 768px) {
+  .sidebar-container {
+    flex-direction: column;
+
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 4;
+  }
+}

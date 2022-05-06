@@ -1,0 +1,28 @@
+// className="flex bg-orange-700 flex-col p-4 md:col-start-2"
+.message-form {
+  display: flex;
+  flex-direction: column;
+  background-color: orange;
+  padding: 1rem;
+  grid-row-start: 3;
+  grid-column-start: 1;
+  grid-column-end: 3;
+
+  input {
+    border: 1px solid black;
+  }
+
+  button {
+    background-color: orange;
+    color: black;
+    margin-top: 0.5rem;
+    border: 1px solid black;
+  }
+}
+@media (min-width: 768px) {
+  .message-form {
+    grid-row-start: 3;
+    grid-column-start: 2;
+    grid-column-end: 3;
+  }
+}

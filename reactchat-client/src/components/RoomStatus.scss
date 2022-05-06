@@ -1,0 +1,30 @@
+.room-status {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+
+  cursor: pointer;
+  .header {
+    display: flex;
+    justify-content: space-between;
+  }
+  .user-list-toggle {
+    // bg-orange-700 px-4 w-full hover:bg-orange-600 flex flex-col items-center
+    outline: none;
+    border: 0;
+    padding: 0 1rem;
+    width: 100%;
+    background-color: orange;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:hover {
+      background-color: orangered;
+    }
+  }
+  .user-list {
+    padding: 8px 1rem;
+    background-color: orangered;
+  }
+}

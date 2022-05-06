@@ -1,0 +1,21 @@
+// "overflow-y-scroll flex flex-col mt-3 mx-3 grow py-1 px-2 border-2 border-orange-700"
+
+.messages {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+
+  grid-column-start: 1;
+  grid-column-end: 3;
+
+  padding: 1rem 1.25rem;
+  border: 1px solid orange;
+}
+@media (min-width: 768px) {
+  .messages {
+    grid-column-start: 2;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 3;
+  }
+}

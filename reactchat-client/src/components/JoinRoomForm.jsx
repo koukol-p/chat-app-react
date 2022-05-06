@@ -19,10 +19,7 @@ export default function JoinRoomForm() {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="px-4 bg-orange-700 py-3 flex border-b w-full justify-between"
-    >
+    <form onSubmit={handleSubmit} className="join-room">
       <input
         disabled={room}
         className="p-1 self-center"
@@ -31,7 +28,7 @@ export default function JoinRoomForm() {
         value={roomIdInput}
         onChange={(e) => setRoomIdInput(e.target.value)}
       />
-      <button disabled={room}  type="submit">
+      <button disabled={room} type="submit">
         <FaDoorOpen color="white" size={24} />
       </button>
     </form>

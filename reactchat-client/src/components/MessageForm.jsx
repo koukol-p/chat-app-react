@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useChatContext } from "../hooks/useChatContext";
+import "./MessageForm.scss";
 
 export default function MessageForm() {
   const [msg, setMsg] = useState("");
@@ -12,8 +13,7 @@ export default function MessageForm() {
   };
 
   return (
-    <form className="flex bg-orange-700 flex-col p-4 md:col-start-2" onSubmit={handleSubmit}>
-    
+    <form className="message-form" onSubmit={handleSubmit}>
       <input
         id="msg"
         value={msg}
@@ -23,12 +23,9 @@ export default function MessageForm() {
             handleSubmit();
           }
         }}
-        className="border-cyan-500 border"
         type="text"
       />
-      <button className="bg-orange-500 text-orange-50 mt-2 border-orange-800 border " type="submit">
-        Send
-      </button>
+      <button type="submit">Send</button>
     </form>
   );
 }
