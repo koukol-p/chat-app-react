@@ -6,18 +6,25 @@ import { useChatContext } from "../hooks/useChatContext";
 
 import "./MainPage.scss";
 import Chat from "../components/Chat";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export default function MainPage() {
   const { socket, room } = useChatContext();
+  const { authCurrent } = useAuthContext();
+  console.log("Current", authCurrent);
   return (
-    <div id="main-container">
-      <Sidebar />
-      {room && (
-        <>
-          <Messages />
-          <MessageForm />
-        </>
-      )}
-    </div>
+    authCurrent && (
+      <>
+        <div id="main-container">
+          <Sidebar />
+          {room && (
+            <>
+              <Messages />
+              <MessageForm />
+            </>
+          )}
+        </div>
+      </>
+    )
   );
 }

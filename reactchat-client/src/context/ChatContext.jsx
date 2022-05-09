@@ -32,7 +32,7 @@ export const ChatContextProvider = ({ children }) => {
 
   const joinRoom = (roomId) => {
     const joinReq = {
-      userName: authCurrent.user.displayName,
+      userName: authCurrent.displayName,
       roomId: roomId.trim(),
     };
     console.log("inside join room");
@@ -51,7 +51,7 @@ export const ChatContextProvider = ({ children }) => {
 
   const sendMessage = (msg) => {
     const newMsg = {
-      userName: authCurrent.user.displayName,
+      userName: authCurrent.displayName,
       msg,
       room,
     };

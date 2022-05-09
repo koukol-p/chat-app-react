@@ -14,7 +14,6 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     onAuthStateChanged(projectAuth, (u) => {
-      console.log(u);
       setAuthCurrent(u);
     });
   }, []);

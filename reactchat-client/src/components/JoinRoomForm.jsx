@@ -12,7 +12,6 @@ export default function JoinRoomForm() {
 
     console.log("SOCKET STATUS: ", socket.current.connected);
     if (roomIdInput !== "" && socket.current.connected) {
-      console.log("inside handler");
       setRoom(roomIdInput);
       joinRoom(roomIdInput);
     }
@@ -22,14 +21,13 @@ export default function JoinRoomForm() {
     <form onSubmit={handleSubmit} className="join-room">
       <input
         disabled={room}
-        className="p-1 self-center"
         type="text"
         placeholder="Enter Room ID"
         value={roomIdInput}
         onChange={(e) => setRoomIdInput(e.target.value)}
       />
       <button disabled={room} type="submit">
-        <FaDoorOpen color="white" size={24} />
+        <FaDoorOpen color="#ef8a17" size={24} />
       </button>
     </form>
   );
