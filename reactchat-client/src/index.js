@@ -6,14 +6,12 @@ import { ChatContextProvider } from "./context/ChatContext";
 import { AuthContextProvider } from "./context/AuthContext";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <AuthContextProvider>
-      <ChatContextProvider>
-        <div className="max-h-screen">
-          <App />
-        </div>
-      </ChatContextProvider>
-    </AuthContextProvider>
-  </React.StrictMode>,
+  <AuthContextProvider>
+    <ChatContextProvider>
+      <div className="max-h-screen">
+        <App />
+      </div>
+    </ChatContextProvider>
+  </AuthContextProvider>,
   document.getElementById("root")
 );

@@ -6,14 +6,15 @@ import { useChatContext } from "./hooks/useChatContext";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import AuthPage from "./pages/AuthPage";
+import { useAuthContext } from "./hooks/useAuthContext";
 export default function App() {
-  //find better place to connect
+  const { authCurrent } = useAuthContext();
 
   return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MainPage />} />
+          <Route path="/" element={authCurrent ? <MainPage /> : <AuthPage />} />
           <Route path="/auth" element={<AuthPage />} />
         </Routes>
       </BrowserRouter>

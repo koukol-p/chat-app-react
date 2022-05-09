@@ -7,19 +7,17 @@ import {
   useRef,
 } from "react";
 import socketClient, { io } from "socket.io-client";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 export const ChatContext = createContext();
 
 export const ChatContextProvider = ({ children }) => {
   const [messages, setMessages] = useState([]);
-  const [userName, setUserName] = useState("");
-  const [isConfirmed, setIsConfirmed] = useState(false);
   const [room, setRoom] = useState("");
   const [roomStatus, setRoomStatus] = useState([]);
   const socket = useRef();
-  console.log(isConfirmed);
+  const { authCurrent } = useAuthContext();
   useEffect(() => {
-    if(isConfirmed) {
     socket.current = io("http://localhost:5000", { autoConnect: false });
     socket.current.connect();
     socket.current.on("message", (msg) => {
@@ -30,12 +28,11 @@ export const ChatContextProvider = ({ children }) => {
       console.log(status);
       setRoomStatus(status);
     });
-  }
-  }, [isConfirmed]);
+  }, []);
 
   const joinRoom = (roomId) => {
     const joinReq = {
-      userName,
+      userName: authCurrent.user.displayName,
       roomId: roomId.trim(),
     };
     console.log("inside join room");
@@ -46,7 +43,7 @@ export const ChatContextProvider = ({ children }) => {
     //check if user is in a room (server crash on leaving room when room is not set)
     if (room) {
       setRoom("");
-      setMessages([])
+      setMessages([]);
       socket.current.emit("leave_room", roomId);
       setRoomStatus([]);
     }
@@ -54,7 +51,7 @@ export const ChatContextProvider = ({ children }) => {
 
   const sendMessage = (msg) => {
     const newMsg = {
-      userName,
+      userName: authCurrent.user.displayName,
       msg,
       room,
     };
@@ -69,13 +66,9 @@ export const ChatContextProvider = ({ children }) => {
         room,
         setRoom,
         joinRoom,
-        userName,
-        setUserName,
         sendMessage,
         roomStatus,
         leaveRoom,
-        isConfirmed,
-        setIsConfirmed
       }}
     >
       {children}

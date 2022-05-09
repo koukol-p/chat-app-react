@@ -1,10 +1,23 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuthContext } from "../../hooks/useAuthContext";
 
 export default function LoginForm() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  const { login } = useAuthContext();
+
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    await login(email, password);
+    navigate("/");
+  };
+
   return (
-    <form className="auth-form">
+    <form className="auth-form" onSubmit={handleLogin}>
       <div className="input-group">
         <label htmlFor="username">Email:</label>
         <input
